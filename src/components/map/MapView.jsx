@@ -4,13 +4,16 @@ import { parkingSpots } from '../../data/parkingSpots';
 import { MAP_CONFIG } from '../../constants/mapConfig';
 import 'leaflet/dist/leaflet.css';
 
-// Fix for default markers
+// Importar la imagen del marcador
+import markerIcon from '../../assets/marker-icon.png'; // Asegúrate de que la ruta sea correcta
 import L from 'leaflet';
-delete L.Icon.Default.prototype._getIconUrl;
-L.Icon.Default.mergeOptions({
-  iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
-  iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
-  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+
+// Configurar el icono del marcador
+const customIcon = L.icon({
+  iconUrl: markerIcon,
+  iconSize: [25, 41], // tamaño del icono
+  iconAnchor: [12, 41], // punto del icono que corresponde a la ubicación del marcador
+  popupAnchor: [1, -34], // punto desde el que se abrirá el popup en relación al icono
 });
 
 const MapView = () => {
@@ -25,7 +28,7 @@ const MapView = () => {
         attribution={MAP_CONFIG.attribution}
       />
       {parkingSpots.map((spot) => (
-        <Marker key={spot.id} position={[spot.lat, spot.lng]}>
+        <Marker key={spot.id} position={[spot.lat, spot.lng]} icon={customIcon}>
           <Popup>
             <div className="p-2">
               <h3 className="font-bold">{spot.name}</h3>
