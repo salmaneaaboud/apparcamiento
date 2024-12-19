@@ -3,6 +3,16 @@ import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import { MAP_CONFIG } from '../constants/mapConfig';
 import { parkingSpots } from '../data/parkingSpots';
 import 'leaflet/dist/leaflet.css';
+import markerIcon from '../assets/marker-icon.png';
+import L from 'leaflet';
+
+ // Start of Selection
+const customIcon = L.icon({
+  iconUrl: markerIcon,
+  iconSize: [30, 45], // Ajustado el tamaño del icono
+  iconAnchor: [15, 45], // Ajustado el punto de anclaje del icono
+  popupAnchor: [1, -34],
+});
 
 const Map = () => {
   return (
@@ -16,7 +26,7 @@ const Map = () => {
         attribution={MAP_CONFIG.attribution}
       />
       {parkingSpots.map((spot) => (
-        <Marker key={spot.id} position={[spot.lat, spot.lng]}>
+        <Marker key={spot.id} position={[spot.lat, spot.lng]} icon={customIcon}>
           <Popup>
             <div className="p-2">
               <h3 className="font-bold">{spot.name}</h3>
